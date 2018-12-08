@@ -3,7 +3,7 @@ Treehouse Techdegree:
 FSJS project 1 - A Random Quote Generator
 ******************************************/
 
-/*Quotes Array*/
+//Quotes Array
 const quotes = [
   {
     quote: "I am concerned that independent thought and critical thinking is waning in our modern world.",
@@ -41,7 +41,7 @@ const quotes = [
 ];
 
 
-/*Random generator for quotes array*/
+//Random generator for quotes array
 
 function getRandomQuote(q) {
   // randomly choose a phrase from phrases array
@@ -50,9 +50,11 @@ function getRandomQuote(q) {
   return randomQuote;
 }
 
-/*Function to printout randomly generated quote*/
+//Function to printout randomly generated quote
 function printQuote(){
-  /*Generate quote*/
+  //Stop the interval process if the "Show another quote" button is selected. Resets Interval
+  stopChangeQuote();
+  //Generate quote
   const quoteData = getRandomQuote(quotes);
   const quoteBox = document.getElementById('quote-box');
   const body = document.getElementsByTagName('body')[0];
@@ -62,33 +64,45 @@ function printQuote(){
 
     if (!quoteData.citation) {
       if (quoteData.year) {
-        /*if only year is available*/
+        //if only year is available
         options = '<span class="year">' + quoteData.year + '</span>';
         console.log("year");
-      } /* else options = '' */
+      } // else options = ''
     }else{
       if (!quoteData.year) {
-        /*if only citation is available*/
+        //if only citation is available
         options = '<span class="citation">' + quoteData.citation + '</span>';
         console.log("citation");
       }else{
-        /*if both are available*/
+        //if both are available
         options = '<span class="citation">' + quoteData.citation + '</span>' + '<span class="year">' + quoteData.year + '</span>';
       }
     }
     return options;
   }
 
-  quoteBox.innerHTML = '<p class="quote">' + quoteData.quote + '</p>' +
-                       '<p class="source">' + quoteData.source + optional() + '</p>';
+  quoteBox.innerHTML = '<p class="quote">' + quoteData.quote + '</p>' + '<p class="source">' + quoteData.source + optional() + '</p>';
   body.style.backgroundColor = randomBGColor();
+  //Trigger the interval process so that if the "Show another quote" button is not selected, quote will change after 20 seconds.
+  changeQuote();
 }
 
+//randomly select a color for the background
 function randomBGColor(){
   let white = [255, 255, 255];
   let rgb = white.map(color => Math.floor(Math.random() * color));
   let randomRGBColor = "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";
   return randomRGBColor;
+}
+
+//Change interval of quotes every 20 seconds
+let quoteIntervalId;
+function changeQuote(){
+  quoteIntervalId = window.setInterval(printQuote, 20000);
+}
+
+function stopChangeQuote(){
+  clearInterval(quoteIntervalId);
 }
 
 document.getElementById('loadQuote').addEventListener("click", printQuote, false);
