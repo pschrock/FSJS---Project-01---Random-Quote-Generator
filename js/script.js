@@ -40,11 +40,22 @@ const quotes = [
   }
 ];
 
+
+/*Random generator for quotes array*/
+
+function getRandomQuote(q) {
+  // randomly choose a phrase from phrases array
+  let randomQuote = q[Math.floor(Math.random() * q.length)];
+  //return the randomly selected quote
+  return randomQuote;
+}
+
 /*Function to printout randomly generated quote*/
 function printQuote(){
   /*Generate quote*/
   const quoteData = getRandomQuote(quotes);
   const quoteBox = document.getElementById('quote-box');
+  const body = document.getElementsByTagName('body')[0];
 
   function optional() {
     let options = '';
@@ -70,16 +81,14 @@ function printQuote(){
 
   quoteBox.innerHTML = '<p class="quote">' + quoteData.quote + '</p>' +
                        '<p class="source">' + quoteData.source + optional() + '</p>';
+  body.style.backgroundColor = randomBGColor();
 }
 
-
-/*Random generator for quotes array*/
-
-function getRandomQuote(q) {
-  // randomly choose a phrase from phrases array
-  let randomQuote = q[Math.floor(Math.random() * q.length)];
-  //return the randomly selected quote
-  return randomQuote;
+function randomBGColor(){
+  let white = [255, 255, 255];
+  let rgb = white.map(color => Math.floor(Math.random() * color));
+  let randomRGBColor = "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";
+  return randomRGBColor;
 }
 
 document.getElementById('loadQuote').addEventListener("click", printQuote, false);
