@@ -40,6 +40,37 @@ const quotes = [
   }
 ];
 
+/*Function to printout randomly generated quote*/
+function printQuote(){
+  /*Generate quote*/
+  const quoteData = getRandomQuote(quotes);
+  const quoteBox = document.getElementById('quote-box');
+
+  function optional() {
+    let options = '';
+
+    if (!quoteData.citation) {
+      if (quoteData.year) {
+        /*if only year is available*/
+        options = '<span class="year">' + quoteData.year + '</span>';
+        console.log("year");
+      } /* else options = '' */
+    }else{
+      if (!quoteData.year) {
+        /*if only citation is available*/
+        options = '<span class="citation">' + quoteData.citation + '</span>';
+        console.log("citation");
+      }else{
+        /*if both are available*/
+        options = '<span class="citation">' + quoteData.citation + '</span>' + '<span class="year">' + quoteData.year + '</span>';
+      }
+    }
+    return options;
+  }
+
+  quoteBox.innerHTML = '<p class="quote">' + quoteData.quote + '</p>' +
+                       '<p class="source">' + quoteData.source + optional() + '</p>';
+}
 
 
 /*Random generator for quotes array*/
@@ -51,51 +82,4 @@ function getRandomQuote(q) {
   return randomQuote;
 }
 
-
-/*Function to printout randomly generated quote*/
-
-function printQuote() {
-  /*Generate quote*/
-  const quoteData = getRandomQuote(quotes);
-
-  const quoteBox = document.getElementById('quote-box');
-  const quote = quoteBox.getElementsByClassName('quote')[0];
-  const source = quoteBox.getElementsByClassName('source')[0];
-  const citation = quoteBox.getElementsByClassName('citation')[0];
-  const year = quoteBox.getElementsByClassName('year')[0];
-
-
-  quote.innerText = quoteData.quote;
-  /*placing span for citation and year within the "innerHTML" for source*/
-  if (!quoteData.citation) {
-    if (!quoteData.year) {
-      /*if no citation or year is available*/
-      source.innerText = quoteData.source;
-    }else{
-      /*if no citation is available*/
-      source.innerHTML = quoteData.source + '<span class="year">' + quoteData.year + '</span>';
-    }
-  }else{
-    if (!quoteData.year) {
-      /*if no year is available*/
-      source.innerHTML = quoteData.source + '<span class="citation">' + quoteData.citation + '</span>';
-    }else{
-      /*if both ARE available*/
-      source.innerHTML = quoteData.source + '<span class="citation">' + quoteData.citation + '</span>' + '<span class="year">' + quoteData.year + '</span>';
-    }
-  }
-}
-
-
-
-/***
-  When the "Show another quote" button is clicked, the event listener
-  below will be triggered, and it will call, or "invoke", the `printQuote`
-  function. So do not make any changes to the line of code below this
-  comment.
-***/
-
 document.getElementById('loadQuote').addEventListener("click", printQuote, false);
-
-
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
