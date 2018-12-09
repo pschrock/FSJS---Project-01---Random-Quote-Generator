@@ -10,33 +10,34 @@ const quotes = [
     source: "Ken Jorgustin",
     citation: "Modern Survival Blog",
     year: "2015",
-    url: "https://modernsurvivalblog.com/modern-survival-ideology/leaders-and-their-blind-followers/"
+    tag:"culture"
   },
   {
     quote: "If you tell the truth, you don’t have to remember anything",
     source: "Mark Twain",
-    url: "http://factmyth.com/factoids/if-you-tell-the-truth-you-dont-have-to-remember-anything/"
+    tag: "comedy"
   },
   {
     quote: "Always forgive your enemies; nothing annoys them so much.",
     source: "Oscar Wilde",
-    url: "http://www.lookupquotes.com/picture_quotes/always-forgive-your-enemies-nothing-annoys-them-so-much/41256/"
+    tag: "comedy"
   },
   {
     quote: "Only I can change my life. No one can do it for me.",
     source: "Carol Burnett",
-    url: "https://quotefancy.com/quote/757687/Carol-Burnett-Only-I-can-change-my-life-No-one-can-do-it-for-me"
+    tag: "culture"
   },
   {
     quote: "Let children feed on the good, the excellent, the great! Don't get in their way with little lectures, facts, and guided tours!",
     source: "Charlotte Mason",
-    url: "https://www.azquotes.com/quote/1464469"
+    tag: "education"
   },
   {
     quote: "It's 3:46. I'm up early because I'm willing to do the work required to make it happen",
     source: "Ryan Carson",
     citation: "Twitter",
-    year: "2018"
+    year: "2018",
+    tag: "motivational"
   }
 ];
 
@@ -59,29 +60,34 @@ function printQuote(){
   const quoteBox = document.getElementById('quote-box');
   const body = document.getElementsByTagName('body')[0];
 
-  function optional() {
+  let newQuote = '';
+
+  //Optional properties evaluated
+  function optional(object) {
     let options = '';
 
-    if (!quoteData.citation) {
-      if (quoteData.year) {
-        //if only year is available
-        options = '<span class="year">' + quoteData.year + '</span>';
-        console.log("year");
-      } // else options = ''
-    }else{
-      if (!quoteData.year) {
-        //if only citation is available
-        options = '<span class="citation">' + quoteData.citation + '</span>';
-        console.log("citation");
-      }else{
-        //if both are available
-        options = '<span class="citation">' + quoteData.citation + '</span>' + '<span class="year">' + quoteData.year + '</span>';
-      }
+    if(object.citation) {
+      options += '<span class="citation">';
+      options += object.citation + '</span>';
     }
+
+    if(object.year) {
+      options += '<span class="year">';
+      options += object.year + '</span>';
+    }
+
+    if(object.tag) {
+      options += ', <span>';
+      options += object.tag + '</span>';
+    }
+
     return options;
   }
 
-  quoteBox.innerHTML = '<p class="quote">' + quoteData.quote + '</p>' + '<p class="source">' + quoteData.source + optional() + '</p>';
+  newQuote = '<p class="quote">' + quoteData.quote + '</p>';
+  newQuote += '<p class="source">' + quoteData.source + optional(quoteData) + '</p>';
+
+  quoteBox.innerHTML = newQuote;
   body.style.backgroundColor = randomBGColor();
   //Trigger the interval process so that if the "Show another quote" button is not selected, quote will change after 20 seconds.
   changeQuote();
