@@ -66,16 +66,21 @@ function printQuote(){
   function optional(object) {
     let options = '';
 
+    //adds citation if available
     if(object.citation) {
       options += '<span class="citation">';
       options += object.citation + '</span>';
     }
 
+
+    //adds year if available
     if(object.year) {
       options += '<span class="year">';
       options += object.year + '</span>';
     }
 
+
+    //adds tag if available
     if(object.tag) {
       options += ', <span>';
       options += object.tag + '</span>';
